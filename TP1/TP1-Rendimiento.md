@@ -99,11 +99,23 @@ Se construirá una tabla comparativa que incluya:
 
 A partir de estos datos, se realizará un análisis comparativo entre ambos procesadores.
 
+### Resultado
+
+A partir de los datos relevados (ver archivo **`speedup/speedup_tp1.xlsx`**), se puede realizar un análisis comparativo del rendimiento de los procesadores evaluados, diferenciando claramente entre los definidos en la consigna y los incorporados adicionalmente por el grupo.
+
+En primer lugar, las **dos tablas superiores corresponden a los procesadores propuestos por el profesor en la consigna**, donde se solicita analizar el rendimiento del Intel Core i5-13600K y el AMD Ryzen 9 5900X a partir de un benchmark de compilación del kernel de Linux. En este contexto, el Intel presenta un tiempo de compilación de 77 s y un rendimiento de 1,30, mientras que el Ryzen 9 5900X registra 84 s y un rendimiento de 1,19. Tomando este último como referencia, el Intel alcanza un *speedup* de 1,09, lo que indica una leve ventaja en este tipo de carga de trabajo.
+
+Adicionalmente, se incluye en esta misma sección el AMD Ryzen 9 7950X como extensión del análisis, el cual muestra un desempeño significativamente superior (56 s y rendimiento 1,79), logrando un *speedup* de 1,50 respecto al Ryzen 9 5900X. Esto permite contextualizar la evolución dentro de la misma línea de procesadores y evidenciar el impacto de mejoras arquitectónicas y mayor paralelismo.
+
+Por otro lado, las **tablas inferiores corresponden a los procesadores evaluados por el grupo**, incorporados con fines comparativos adicionales. Aquí se toma como referencia al AMD Ryzen 3 3200G (14,95 s), frente al cual el AMD Ryzen 7 AI 350 obtiene un tiempo de 1,98 s (*speedup* de 7,55), destacándose como el mejor rendimiento del conjunto, probablemente debido a su mayor cantidad de hilos (16). En contraste, el Intel Core Ultra 7 258V presenta un tiempo de 3,11 s (*speedup* de 4,81), también mostrando una mejora considerable aunque inferior al Ryzen.
+
+En síntesis, el análisis confirma que el rendimiento en tareas de compilación —altamente paralelizables— está fuertemente influenciado por la cantidad de núcleos e hilos disponibles. Mientras que en la comparación solicitada por la consigna el Intel Core i5-13600K supera levemente al AMD Ryzen 9 5900X, los resultados ampliados muestran que procesadores con mayor paralelismo, como el AMD Ryzen 9 7950X y el AMD Ryzen 7 AI 350, logran mejoras sustanciales en términos de *speedup* y tiempo de ejecución.
+
 ---
 
 ## 5. Speedup
 
-Se calculará la aceleración (speedup) entre los procesadores analizados utilizando la siguiente relación:
+Se calculan la aceleración (speedup) entre los procesadores analizados utilizando la siguiente relación. 
 
 ---
 
