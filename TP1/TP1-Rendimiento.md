@@ -83,7 +83,7 @@ Ejemplos: Linpack, Livermore, NAS, PARSEC.
 
 ---
 
-## 4. Comparación de CPUs
+## 4. Comparación de CPUs y cálculo de speedup
 
 Se analizará el rendimiento de los siguientes procesadores:
 
@@ -99,27 +99,55 @@ Se construirá una tabla comparativa que incluya:
 
 A partir de estos datos, se realizará un análisis comparativo entre ambos procesadores.
 
+### Speedup
+
+El **speedup** (aceleración) es una métrica fundamental en el análisis de rendimiento de sistemas de cómputo. Se utiliza para cuantificar la mejora obtenida al optimizar un sistema o al comparar dos configuraciones distintas, como diferentes procesadores o versiones de un algoritmo.
+
+#### Definición
+
+Se define como la relación entre el tiempo de ejecución de un sistema de referencia y el tiempo de ejecución de un sistema mejorado:
+
+$$
+Speedup = \frac{T_{original}}{T_{mejorado}}
+$$
+
+Donde:
+
+- $T_{original}$: tiempo de ejecución del sistema base
+- $T_{mejorado}$: tiempo de ejecución del sistema optimizado
+
+Un valor de:
+
+- **Speedup > 1** → el sistema mejorado es más rápido
+- **Speedup = 1** → no hay mejora
+- **Speedup < 1** → el sistema mejorado es peor
+
+#### Interpretación
+
+El speedup permite medir cuánto se acelera un proceso. Por ejemplo, un speedup de 2 indica que el sistema es el doble de rápido, es decir, ejecuta la misma tarea en la mitad del tiempo.
+
+Es una métrica ampliamente utilizada en:
+
+- Comparación de hardware (CPUs, GPUs)
+- Evaluación de algoritmos
+- Optimización de software
+- Sistemas paralelos y distribuidos
+
 ### Resultado
 
 A partir de los datos relevados (ver archivo **`speedup/speedup_tp1.xlsx`**), se puede realizar un análisis comparativo del rendimiento de los procesadores evaluados, diferenciando claramente entre los definidos en la consigna y los incorporados adicionalmente por el grupo.
 
-En primer lugar, las **dos tablas superiores corresponden a los procesadores propuestos por el profesor en la consigna**, donde se solicita analizar el rendimiento del Intel Core i5-13600K y el AMD Ryzen 9 5900X a partir de un benchmark de compilación del kernel de Linux. En este contexto, el Intel presenta un tiempo de compilación de 77 s y un rendimiento de 1,30, mientras que el Ryzen 9 5900X registra 84 s y un rendimiento de 1,19. Tomando este último como referencia, el Intel alcanza un *speedup* de 1,09, lo que indica una leve ventaja en este tipo de carga de trabajo.
+En primer lugar, las dos tablas superiores corresponden a los procesadores propuestos por el profesor en la consigna, donde se solicita analizar el rendimiento del Intel Core i5-13600K y el AMD Ryzen 9 5900X a partir de un benchmark de compilación del kernel de Linux. En este contexto, el Intel presenta un tiempo de compilación de 77 s y un rendimiento de 1,30, mientras que el Ryzen 9 5900X registra 84 s y un rendimiento de 1,19. Tomando este último como referencia, el Intel alcanza un *speedup* de 1,09, lo que indica una leve ventaja en este tipo de carga de trabajo.
 
 Adicionalmente, se incluye en esta misma sección el AMD Ryzen 9 7950X como extensión del análisis, el cual muestra un desempeño significativamente superior (56 s y rendimiento 1,79), logrando un *speedup* de 1,50 respecto al Ryzen 9 5900X. Esto permite contextualizar la evolución dentro de la misma línea de procesadores y evidenciar el impacto de mejoras arquitectónicas y mayor paralelismo.
 
-Por otro lado, las **tablas inferiores corresponden a los procesadores evaluados por el grupo**, incorporados con fines comparativos adicionales. Aquí se toma como referencia al AMD Ryzen 3 3200G (14,95 s), frente al cual el AMD Ryzen 7 AI 350 obtiene un tiempo de 1,98 s (*speedup* de 7,55), destacándose como el mejor rendimiento del conjunto, probablemente debido a su mayor cantidad de hilos (16). En contraste, el Intel Core Ultra 7 258V presenta un tiempo de 3,11 s (*speedup* de 4,81), también mostrando una mejora considerable aunque inferior al Ryzen.
+Por otro lado, las tablas inferiores corresponden a los procesadores evaluados por el grupo, incorporados con fines comparativos adicionales. Aquí se toma como referencia al AMD Ryzen 3 3200G (14,95 s), frente al cual el AMD Ryzen 7 AI 350 obtiene un tiempo de 1,98 s (*speedup* de 7,55), destacándose como el mejor rendimiento del conjunto, probablemente debido a su mayor cantidad de hilos (16). En contraste, el Intel Core Ultra 7 258V presenta un tiempo de 3,11 s (*speedup* de 4,81), también mostrando una mejora considerable aunque inferior al Ryzen.
 
 En síntesis, el análisis confirma que el rendimiento en tareas de compilación —altamente paralelizables— está fuertemente influenciado por la cantidad de núcleos e hilos disponibles. Mientras que en la comparación solicitada por la consigna el Intel Core i5-13600K supera levemente al AMD Ryzen 9 5900X, los resultados ampliados muestran que procesadores con mayor paralelismo, como el AMD Ryzen 9 7950X y el AMD Ryzen 7 AI 350, logran mejoras sustanciales en términos de *speedup* y tiempo de ejecución.
 
 ---
 
-## 5. Speedup
-
-Se calculan la aceleración (speedup) entre los procesadores analizados utilizando la siguiente relación. 
-
----
-
-## 6. Time Profiling en Sistemas de Cómputo
+## 5. Time Profiling en Sistemas de Cómputo
 
 El time profiling es una técnica fundamental en el análisis de rendimiento de software. Permite evaluar el comportamiento interno de un programa durante su ejecución, identificando qué funciones o secciones consumen mayor tiempo de CPU. A diferencia de los benchmarks, que evalúan el rendimiento a nivel más global de un componente o sistema, el profiling se centra en el análisis detallado del desempeño interno del código.
 
@@ -134,17 +162,18 @@ El time profiling es una técnica fundamental en el análisis de rendimiento de 
 Los resultados del time profiling realizado por cada integrante del grupo se encuentran en el directorio `profiling/`, donde:
 
 - `profiling/src/` contiene el código fuente compilado para el análisis.
-- `profiling/images/` contiene los graficos generados por _pref_.
-- `profiling/results/` contiene los resultados generados por _pref_.
+- `profiling/images/` contiene los graficos generados por *pref*.
+- `profiling/results/` contiene los resultados generados por *pref*.
 - `profiling/README.md` contiene una guia de como realizar el analisis con el código fuente sugerido.
 
 ---
 
-## 7. Análisis del Impacto de la Frecuencia de CPU en el Tiempo de Ejecución sobre ESP32
+## 6. Análisis del Impacto de la Frecuencia de CPU en el Tiempo de Ejecución sobre ESP32
 
 La eficiencia de un sistema informático depende directamente del ritmo de procesamiento de su unidad central (CPU). Por lo habitual, elevar la frecuencia de reloj incrementa la capacidad de procesar instrucciones por segundo, lo cual tiende a optimizar la velocidad de respuesta y disminuir los tiempos de procesamiento de las aplicaciones.
 
 ### Objetivos del Estudio
+
 En este análisis se propone examinar de forma práctica dicho vínculo mediante el uso de un microcontrolador ESP32. El enfoque principal consiste en medir las variaciones en el tiempo de ejecución de un algoritmo específico bajo distintos niveles de frecuencia de operación.
 
 Adicionalmente, el análisis profundiza en la comparativa de rendimiento según la naturaleza de los datos, contrastando específicamente la eficiencia del procesador al ejecutar:
