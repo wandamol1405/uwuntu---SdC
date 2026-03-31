@@ -79,6 +79,12 @@ pip install -r requirements.txt
 python3 python/main.py
 ```
 
+Salida esperada:
+
+```bash
+TP GINI - Setup OK
+```
+
 ### C
 #### Compilar
 
@@ -90,6 +96,12 @@ gcc c/main.c -o c/main
 
 ```bash
 ./c/main
+```
+
+Salida esperada>
+
+```bash
+C layer OK
 ```
 
 ## Consideraciones técnicas del TP
