@@ -46,6 +46,16 @@ sudo apt install build-essential python3 python3-venv
 
 ## Configuracion del entorno de Python
 
+Un entorno virtual (`venv`) es un entorno aislado de Python que permite instalar dependencias sin afectar la instalacion global del sistema.
+
+### ¿Para qué sirve?
+
+- **Aislamiento:** cada proyecto maneja sus propias librerías (ej: `requests`) sin interferir con otros proyectos.
+- **Reproducibilidad:** todos los integrantes pueden instalar exactamente las mismas dependencias usando `requirements.txt`.
+- **Evitar conflictos:** distintas versiones de librerías no se pisan entre sí.
+
+### Uso básico
+
 Crear entorno virtual:
 
 ```bash
@@ -53,16 +63,12 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
+Este comando genera una carpeta `venv`. Contiene el entorno aislado de Python con todo lo necesario para ejecutar el proyecto.
+
 Instalar dependencias:
 
 ```bash
 pip install -r requirements.txt
-```
-
-Dentro de `requirements.txt` agregar:
-
-```bash
-requests
 ```
 
 ## Ejecucion
