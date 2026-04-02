@@ -1,12 +1,13 @@
 unsigned long startTime;
 unsigned long endTime;
 
-void setup() {
+void setup()
+{
   Serial.begin(115200);
 
   int frequency = 240;
 
-  setCpuFrequencyMhz(frequency); 
+  setCpuFrequencyMhz(frequency);
 
   delay(2000); // tiempo para abrir el monitor serie
 
@@ -14,13 +15,14 @@ void setup() {
   Serial.print("Frecuencia seteada a: ");
   Serial.print(frequency);
   Serial.println("MHz");
-  
+
   // -------- INT --------
   Serial.println("Calculando suma de enteros...");
   volatile int sumaInt = 0;
   startTime = millis();
 
-  for (long i = 0; i < 50000000; i++) {
+  for (long i = 0; i < 50000000; i++)
+  {
     sumaInt += i;
   }
 
@@ -34,8 +36,9 @@ void setup() {
   volatile float sumaFloat = 0;
   startTime = millis();
 
-  for (long i = 0; i < 50000000; i++) {
-    sumaFloat += i * 0.1;
+  for (long i = 0; i < 50000000; i++)
+  {
+    sumaFloat += (float)i * 0.1f;
   }
 
   endTime = millis();
