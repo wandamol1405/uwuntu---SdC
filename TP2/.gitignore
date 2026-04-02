@@ -1,0 +1,97 @@
+# =========================
+# Python
+# =========================
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Entornos virtuales
+venv/
+.env/
+.env.*
+
+# Distribución / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Archivos de logs y temporales
+*.log
+*.tmp
+
+# Configuración de herramientas
+.pytest_cache/
+.mypy_cache/
+.cache/
+
+# Jupyter (por si aparece)
+.ipynb_checkpoints/
+
+# =========================
+# C / Compilación
+# =========================
+
+# Binarios
+*.out
+*.exe
+*.o
+*.so
+*.a
+
+# Ejecutables generados en carpetas del proyecto
+c/main
+c/*.o
+
+# Archivos de debug / profiling
+*.gdb
+gmon.out
+
+# =========================
+# Build systems
+# =========================
+
+# Make
+Makefile~
+*.d
+
+# CMake (por si lo usan)
+CMakeFiles/
+CMakeCache.txt
+cmake-build-*/
+compile_commands.json
+
+# =========================
+# Sistema / Editor
+# =========================
+
+# Linux
+*~
+*.swp
+*.swo
+
+# VSCode
+.vscode/
+
+# JetBrains
+.idea/
+
+# Mac (por si alguien usa)
+.DS_Store
+
+# =========================
+# Datos / outputs
+# =========================
+
+# Datos generados (ajustar si necesitan versionarlos)
+data/output/
+data/tmp/
+
+# =========================
+# Otros
+# =========================
+
+# Variables sensibles
+.env.local
+.env.secret
