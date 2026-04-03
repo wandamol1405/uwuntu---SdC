@@ -95,3 +95,12 @@ data/tmp/
 # Variables sensibles
 .env.local
 .env.secret
+
+# =========================
+# Otros
+# =========================
+venv/
+data/gini_data.txt
+test_reader
+__pycache__/
+*.o
