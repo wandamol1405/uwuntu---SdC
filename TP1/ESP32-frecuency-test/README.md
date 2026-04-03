@@ -50,7 +50,7 @@ El tiempo de ejecución se mide utilizando la función `millis()`, que retorna e
 
 ### 4.2 Código implementado
 
-El codigo implementado en esta prueba se encuntra en el directorio `./frequency_test_code/frequency_test_code.ino`.
+El codigo implementado en esta prueba se encuentra en el directorio `./frequency_test_code/frequency_test_code.ino`.
 
 Se utilizó la palabra clave `volatile` para evitar optimizaciones del compilador que pudieran eliminar o simplificar los cálculos.
 
@@ -74,9 +74,9 @@ A continuación se presentan los resultados obtenidos experimentalmente.
 
 | Frecuencia (MHz) | Tiempo enteros (ms) | Tiempo float (ms) |
 | ---------------- | ------------------- | ----------------- |
-| 80               |6953                 |164499             |
-| 160              |3456                 |81772              |
-| 240              |2300                 |54409              |
+| 80               |6953                 |8849             |
+| 160              |3456                 |4400              |
+| 240              |2300                 |2928              |
 
 ![Resultados del test](test_results.png)
 ---
@@ -95,29 +95,29 @@ Para operaciones con enteros:
 Se verifica que al duplicar la frecuencia (de 80 MHz a 160 MHz), el tiempo de ejecución se reduce aproximadamente a la mitad:
 
 $$
-\frac{6953}{3456} \approx 2.0119
+\frac{6953}{3456} \approx 2.01
 $$
 
 Asimismo, al incrementar la frecuencia de 80 MHz a 240 MHz (factor 3), el tiempo se reduce aproximadamente en la misma proporción:
 
 $$
-\frac{6953}{2300} \approx 3.0230
+\frac{6953}{2300} \approx 3.02
 $$
 
 Para operaciones con punto flotante:
 
-- 80 MHz → 164499 ms  
-- 160 MHz → 81772 ms  
-- 240 MHz → 54409 ms  
+- 80 MHz → 8849 ms  
+- 160 MHz → 4400 ms  
+- 240 MHz → 2928 ms  
 
 Se observa el mismo comportamiento:
 
 $$
-\frac{164499}{81772} \approx 2.0117
+\frac{8849}{4400} \approx 2.01
 $$
 
 $$
-\frac{164499}{54409} \approx 3.0234
+\frac{8849}{2928} \approx 3.02
 $$
 
 Estos resultados indican una relación aproximadamente inversa entre la frecuencia de CPU y el tiempo de ejecución.
@@ -126,22 +126,22 @@ Estos resultados indican una relación aproximadamente inversa entre la frecuenc
 
 ### 🔹 Comparación entre enteros y punto flotante
 
-Se observa una diferencia significativa entre los tiempos de ejecución de ambos tipos de operaciones.
+Se observa una diferencia moderada entre los tiempos de ejecución de ambos tipos de operaciones.
 
 Por ejemplo, a 80 MHz:
 
 - Enteros: 6953 ms  
-- Float: 164499 ms  
+- Float: 8849 ms  
 
 Esto implica que las operaciones en punto flotante son aproximadamente:
 
 $$
-\frac{164499}{6953} \approx 23.66
+\frac{8849}{6953} \approx 1.2727
 $$
 
 veces más costosas que las operaciones con enteros.
 
-Este comportamiento se mantiene en todas las frecuencias, lo que sugiere que el costo relativo de las operaciones es independiente de la frecuencia de CPU.
+Este comportamiento se mantiene en todas las frecuencias, lo que indica que el costo relativo de las operaciones es independiente de la frecuencia y depende principalmente de la arquitectura del procesador.
 
 ## 6.1 Análisis de Speedup
 
@@ -173,9 +173,9 @@ donde:
 
 | Frecuencia (MHz) | Tiempo (ms) | Speedup |
 |------------------|------------|---------|
-| 80               | 164499     | 1.00    |
-| 160              | 81772      | 2.01    |
-| 240              | 54409      | 3.02    |
+| 80               | 8849     | 1.00    |
+| 160              | 4400      | 2.01    |
+| 240              | 2928      | 3.02    |
 
 ---
 
@@ -213,11 +213,11 @@ Se concluye que la eficiencia del sistema es cercana al 100%, lo cual indica un 
 
 Los resultados obtenidos se alinean fuertemente con el modelo teórico esperado, según el cual el tiempo de ejecución de un programa es inversamente proporcional a la frecuencia de la CPU, siempre que la cantidad de instrucciones ejecutadas se mantenga constante.
 
-En este experimento, tanto para operaciones con enteros como con punto flotante, se verificó que al duplicar la frecuencia del procesador, el tiempo de ejecución se reduce aproximadamente a la mitad. Asimismo, al triplicar la frecuencia, el tiempo se reduce en un factor cercano a tres. Esto indica que el sistema se comporta de manera casi ideal, con una eficiencia cercana al 100% respecto al escalamiento de frecuencia.
+En este experimento, tanto para operaciones con enteros como con punto flotante, se verificó que al duplicar la frecuencia del procesador, el tiempo de ejecución se reduce aproximadamente a la mitad. Asimismo, al triplicar la frecuencia, el tiempo se reduce en un factor cercano a tres. Esto indica que el sistema se comporta de manera casi ideal, con una eficiencia cercana al 100%, con desviaciones menores atribuibles a overhead del sistema y precisión de medición.
 
-Por otro lado, se evidenció una diferencia significativa en el costo computacional entre operaciones con enteros y en punto flotante. Las operaciones con números en punto flotante resultaron aproximadamente 23 veces más lentas que las operaciones enteras.
+Por otro lado, se evidenció una diferencia moderada en el costo computacional entre operaciones con enteros y en punto flotante. Las operaciones con números en punto flotante resultaron aproximadamente 1.27 veces más lentas que las operaciones enteras.
 
-Este comportamiento puede atribuirse a la mayor complejidad de las operaciones en punto flotante, que requieren más ciclos de reloj y, en algunos casos, el uso de unidades de hardware específicas (FPU). A pesar de que el ESP32 dispone de soporte para operaciones en punto flotante, estas continúan siendo considerablemente más costosas que las operaciones enteras.
+Esta diferencia relativamente baja puede atribuirse a que el ESP32 dispone de una unidad de punto flotante (FPU) que permite ejecutar operaciones en simple precisión de manera eficiente en hardware. En consecuencia, el costo de las operaciones en punto flotante no difiere significativamente del de las operaciones enteras en esta arquitectura.
 
 Finalmente, no se observaron desviaciones significativas respecto al comportamiento teórico, lo que sugiere que factores como memoria, caché u otros cuellos de botella no tuvieron un impacto relevante en este experimento.
 
@@ -227,6 +227,8 @@ A partir de los resultados obtenidos, se puede concluir que existe una relación
 
 El análisis experimental demostró que al duplicar la frecuencia de operación, el tiempo de ejecución se reduce aproximadamente a la mitad, mientras que al triplicarla, el tiempo disminuye en una proporción similar. Esto confirma el comportamiento esperado desde el punto de vista teórico.
 
-Asimismo, se evidenció que las operaciones en punto flotante presentan un costo computacional significativamente mayor que las operaciones con enteros, siendo aproximadamente 23 veces más lentas en este experimento. Esta diferencia se mantiene constante independientemente de la frecuencia utilizada.
+Asimismo, se evidenció que las operaciones en punto flotante presentan un costo computacional levemente mayor que las operaciones con enteros, siendo aproximadamente 1.27 veces más lentas en este experimento. Esta diferencia se mantiene consistente a lo largo de las distintas frecuencias evaluadas.
+
+Este comportamiento se explica por la presencia de una unidad de punto flotante (FPU) en el ESP32, que permite ejecutar operaciones en simple precisión de manera eficiente, reduciendo significativamente la brecha de rendimiento respecto a las operaciones enteras.
 
 En conjunto, los resultados validan el modelo teórico de escalamiento del rendimiento en función de la frecuencia, y destacan la importancia del tipo de operación en el análisis del desempeño de sistemas embebidos.
