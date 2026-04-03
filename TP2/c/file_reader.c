@@ -4,7 +4,7 @@
 
 float* read_data(const char* path, int* size) {
 
-   float* data = read_data("data/gini_data.txt", &size);
+    FILE* file = fopen(path, "r");
 
     if (file == NULL) {
         perror("Error opening file");
