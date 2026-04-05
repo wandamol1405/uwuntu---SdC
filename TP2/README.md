@@ -3,6 +3,7 @@
 ## Descripcion
 
 Este trabajo práctico tiene como objetivo implementar una aplicación multicapa para el cálculo del índice de GINI utilizando una arquitectura escalonada:
+
 - Capa superior (Python): consumo de API REST del Banco Mundial
 - Capa intermedia (C): procesamiento de datos
 - Capa inferior (Assembler): (includa en la Iteracion 2)
@@ -32,6 +33,7 @@ El sistema deberá:
 ```
 
 ## Requisitos
+
 - Linux (se recomienda Ubuntu 22.04)
 - Python 3.x
 - GCC
@@ -76,7 +78,7 @@ pip install -r requirements.txt
 ### Python
 
 ```bash
-python3 python/main.py
+python3 python/data_formatter.py
 ```
 
 Salida esperada:
@@ -85,31 +87,41 @@ Salida esperada:
 TP GINI - Setup OK
 ```
 
-### C
+### C (Iteración 1)
+
 #### Compilar
 
 ```bash
-gcc c/main.c -o c/main
+gcc c/main_i1.c file_reader -o c/main_i1
 ```
 
 #### Ejecutar
 
 ```bash
-./c/main
+./c/main_i1
 ```
 
-Salida esperada>
+### Asm (Iteración 2)
+
+#### Compilar
 
 ```bash
-C layer OK
+gcc c/main_i2.c file_reader process_value.s -o c/main_i2
+```
+
+#### Ejecutar
+
+```bash
+./c/main_i2
 ```
 
 ## Consideraciones técnicas del TP
+
 - Se utilizará arquitectura x86_64 sobre Linux
 - En próximas iteraciones:
-    - C invocará funciones en assembler
-    - Se utilizará stack para paso de parámetros
-    - Se aplicará convención System V AMD64 ABI
+  - C invocará funciones en assembler
+  - Se utilizará stack para paso de parámetros
+  - Se aplicará convención System V AMD64 ABI
 - Python consumirá la API del Banco Mundial mediante REST
 
 ## Trabajo colaborativo
