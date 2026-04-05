@@ -81,10 +81,8 @@ pip install -r requirements.txt
 python3 python/data_formatter.py
 ```
 
-Salida esperada:
+Este comando genera el archivo `data/gini_values.txt`
 
-```bash
-TP GINI - Setup OK
 ```
 
 ### C (Iteración 1)
