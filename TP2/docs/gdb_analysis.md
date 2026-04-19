@@ -13,8 +13,8 @@ Como se observa en la imagen, el programa realiza las siguientes acciones antes 
 1. Mueve un valor desde la pila (`-0x18(%rbp)`) al registro `%eax`.
 2. Transfiere dicho valor al registro vectorial `%xmm0` mediante la instrucción `movd`.
 
-![Desensamblado de main](<img width="1570" height="1605" alt="Captura de pantalla 2026-04-19 202606" src="https://github.com/user-attachments/assets/9d476fb5-fa99-430e-b3d1-f85c705b97cf" />
-)
+<img width="1570" height="1605" alt="Captura de pantalla 2026-04-19 202606" src="https://github.com/user-attachments/assets/9d476fb5-fa99-430e-b3d1-f85c705b97cf" />
+
 
 > **Observación:** El uso de `%xmm0` confirma que el argumento es un valor de punto flotante, cumpliendo con la convención de llamadas para arquitectura x86_64.
 
