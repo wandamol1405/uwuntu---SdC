@@ -150,7 +150,7 @@ Ejecución y Evidencia
 
 Al ejecutar el comando make, el sistema compila los fuentes de Assembler y C, y lanza el ejecutable que procesa los datos reales del Banco Mundial.
 
- ![alt text](<./docs/salida_programa.jpeg>)
+ ![alt text](<./docs/salida_programa.png>)
 
 
 Como se observa en la captura, el sistema arroja la confirmación `C layer OK` y procede a listar los índices GINI procesados.
