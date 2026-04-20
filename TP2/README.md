@@ -152,6 +152,7 @@ Al ejecutar el comando make, el sistema compila los fuentes de Assembler y C, y 
 
  ![alt text](<./docs/salida_programa.jpeg>)
 
+
 Como se observa en la captura, el sistema arroja la confirmación `C layer OK` y procede a listar los índices GINI procesados.
 
 | Input (Dataset.txt) | Logica Aplicada (ASM)| Resultado en Consola | Estado |
