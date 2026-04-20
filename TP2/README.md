@@ -14,6 +14,33 @@ El foco del TP no está únicamente en el cálculo en sí, sino en:
 - el uso de convenciones de llamadas
 - el análisis del comportamiento en ejecución mediante debugging
 
+### Estructura del proyecto
+```bash
+.
+├── c/                     # capa intermedia (procesamiento en C + ASM)
+│   ├── file_reader.c      # funcion para lectura del .txt
+│   ├── file_reader.h      
+│   ├── main_i1.c          # main de la primera iretacion (solo C)
+│   ├── main_i2.c          # main de la segunda iteracion (C + ASM) 
+│   ├── process_value.s   # implementación en assembler
+│   └── test_reader.c     # tests de lectura
+│
+├── python/               # capa superior (API + formateo de datos)
+│   ├── api_client.py     # obtencion de los datos del índice de GINI desde la API del Banco Mundial
+│   ├── data_formatter.py # extrae los valores usando api_client.py y los almacena en data/gini_values.txt
+│   └── main.py
+│
+├── data/                 # archivos de datos generados
+│   └── .gitkeep
+│
+├── docs/                 # documentación e informes
+│   ├── gdb_analysis.md
+│   └── .gitkeep
+│
+├── Makefile              # automatización de build, run y debug
+├── README.md             # documentación general del proyecto
+└── .gitignore
+```
 
 ## 2. Arquitectura del sistema
 
@@ -112,17 +139,7 @@ Se utilizó GDB para analizar la ejecución. Todo el analisis con los resultados
 
 ## 6. Testing funcional
 
-Se validaron distintos casos:
 
-| Input             | Output esperado |
-| ----------------- | --------------- |
-| [1.0, 2.0, 3.0]   | [2, 3, 4]       |
-| [0.0, 0.0, 100.0] | [1, 1, 101]     |
-| [-1.5, 2.3]       | [-1, 3]         |
-
-### Observación
-
-La conversión usa truncamiento (`cvttss2si`), no redondeo.
 
 ---
 
