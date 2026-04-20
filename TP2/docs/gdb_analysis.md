@@ -38,7 +38,7 @@ Una vez dentro de la función en Assembler, se ejecutan las instrucciones paso a
 1. **Conversión**: `%rax` toma el valor hexadecimal `0x2a` (**42** decimal).
 2. **Incremento**: El registro `%rax` finaliza en `0x2b` (**43** decimal).
 
-<img width="2841" height="195" alt="Captura de pantalla 2026-04-19 203359" src="https://github.com/user-attachments/assets/b6ea5b23-ddbf-4298-80e0-cb251a0e8492" />
+<img width="2829" height="233" alt="Captura de pantalla 2026-04-19 203924" src="https://github.com/user-attachments/assets/f9770a79-7bca-4011-a7e3-db5dc24aa305" />
 
 <img width="739" height="122" alt="Captura de pantalla 2026-04-19 204124" src="https://github.com/user-attachments/assets/a7f641c6-9475-48dc-8001-080780324c10" />
 
