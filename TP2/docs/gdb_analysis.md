@@ -54,12 +54,3 @@ Al inspeccionar el stack con `x/8xg $rsp`, se observa que el puntero ha descendi
 
 **Validación**: Al contrastar esta dirección con el desensamblado de `main`, se confirma que apunta a la instrucción inmediatamente posterior al `call` (+147), garantizando que el programa retome su ejecución correctamente tras el `ret`.
 
----
-
-## 6. Conclusión
-La sesión de debugging demuestra exitosamente:
-* **Paso de parámetros**: El `float` se transfiere correctamente vía `%xmm0`.
-* **Valor de retorno**: El resultado entero se entrega en `%rax`.
-* **Integridad del Stack**: Se verificó el almacenamiento de la dirección de retorno y el comportamiento LIFO de la pila.
-
-El código cumple con los requisitos del TP2 y las especificaciones de la convención de llamadas.
