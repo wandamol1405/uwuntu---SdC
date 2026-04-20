@@ -35,6 +35,8 @@ El foco del TP no está únicamente en el cálculo en sí, sino en:
 │
 ├── docs/                 # documentación e informes
 │   ├── gdb_analysis.md
+│   ├── analysis.txt
+│   ├── salida_programa.jpeg
 │   └── .gitkeep
 │
 ├── Makefile              # automatización de build, run y debug
@@ -215,15 +217,17 @@ gprof c/program gmon.out > analysis.txt
 
 ### Observaciones
 
-- Integración Exitosa de Capas: Se logró desacoplar la obtención de datos (Python), la lógica de control (C) y el cálculo de bajo nivel (ASM). El uso de un archivo `.txt` como interfaz permitió una integración limpia, aunque con un costo de latencia predecible.
+- Se logró desacoplar la obtención de datos (Python), la lógica de control (C) y el cálculo de bajo nivel (ASM). El uso de un archivo `.txt` como interfaz permitió una integración limpia, aunque con un costo de latencia predecible.
 
-- Análisis de Performance (I/O Bound): Si bien la implementación en C + ASM es drásticamente más rápida que la de Python (0.0013s vs 0.702s), el profiling con `gprof` reveló que el sistema está limitado por la Entrada/Salida (I/O). La función de lectura de archivos es la que domina el tiempo de ejecución en la capa nativa, mientras que el cálculo en Assembler es prácticamente instantáneo para los ciclos de la CPU.
+- Si bien la implementación en C + ASM es drásticamente más rápida que la de Python (0.0013s vs 0.702s), el profiling con `gprof` reveló que el sistema está limitado por la Entrada/Salida (I/O). La función de lectura de archivos es la que domina el tiempo de ejecución en la capa nativa, mientras que el cálculo en Assembler es prácticamente instantáneo para los ciclos de la CPU.
 
-- Eficiencia de Assembler: El "peso real" de la función `process_value_asm` resultó ser despreciable en el reporte de profiling (0.00s). Esto demuestra que el uso de instrucciones como `cvttss2si` optimiza al máximo el procesamiento aritmético, confirmando que cualquier cuello de botella remanente no está en el cálculo sino en el pasaje de datos entre capas.
+- El "peso real" de la función `process_value_asm` resultó ser despreciable en el reporte de profiling (0.00s). Esto demuestra que el uso de instrucciones como `cvttss2si` optimiza al máximo el procesamiento aritmético, confirmando que cualquier cuello de botella remanente no está en el cálculo sino en el pasaje de datos entre capas.
 
-- Convención de Llamadas y Stack: Mediante el uso de GDB, se validó la convención de llamadas System V AMD64. Se observó correctamente el paso de parámetros por registros (%xmm0 para punto flotante) y la gestión del Stack Frame (uso de %rbp y %rsp) al momento de invocar la rutina en ASM.
+- Mediante el uso de GDB, se validó la convención de llamadas System V AMD64. Se observó correctamente el paso de parámetros por registros (%xmm0 para punto flotante) y la gestión del Stack Frame (uso de %rbp y %rsp) al momento de invocar la rutina en ASM.
 
 El valor de este trabajo no reside en la complejidad de la suma realizada en ASM, sino en la comprensión integral de cómo los datos atraviesan distintas abstracciones de software hasta llegar al hardware. La optimización en bajo nivel es sumamente potente, pero su impacto real depende de cuán eficiente sea la comunicación de datos previa.
+
+Se encuentra la salida del profiling en `docs/analysis.txt`
 
 ---
 
