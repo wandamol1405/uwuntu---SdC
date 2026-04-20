@@ -25,7 +25,7 @@ Antes de ejecutar la instrucción `call`, se inspeccionó el estado de los regis
 * **Registro `%xmm0`**: Contiene el valor `0x422acccd` (representación float de aproximadamente **42.7**).
 * **Registro `%rsp`**: Apunta a la dirección `0x7ffffffdde50`.
 
-<img width="2841" height="195" alt="Captura de pantalla 2026-04-19 203359" src="https://github.com/user-attachments/assets/77f0d677-e179-4693-9caa-66365852f14f" />
+<img width="2857" height="226" alt="Captura de pantalla 2026-04-19 203057" src="https://github.com/user-attachments/assets/c4a0cb4d-66a5-4fba-8523-4a44685988e8" />
 
 <img width="1126" height="197" alt="Captura de pantalla 2026-04-19 203226" src="https://github.com/user-attachments/assets/602856c2-57a5-4423-b3c9-39f9d61cf2b9" />
 
