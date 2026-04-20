@@ -14,7 +14,6 @@ El foco del TP no está únicamente en el cálculo en sí, sino en:
 - el uso de convenciones de llamadas
 - el análisis del comportamiento en ejecución mediante debugging
 
----
 
 ## 2. Arquitectura del sistema
 
@@ -22,7 +21,6 @@ El sistema implementado sigue la siguiente arquitectura:
 ```bash
 Python → archivo .txt → C → ASM → Output
 ```
-
 
 ### Flujo:
 
@@ -32,7 +30,6 @@ Python → archivo .txt → C → ASM → Output
 4. ASM procesa el valor y retorna el resultado
 5. C imprime el resultado final
 
----
 
 ## 3. Decisiones de diseño
 
@@ -44,8 +41,6 @@ Se decidió desacoplar Python y C mediante un archivo `.txt`:
 - simplicidad de integración
 - independencia entre capas
 - facilidad de testing
-
----
 
 ### 3.2 Uso de Assembler
 
@@ -177,27 +172,106 @@ gprof c/program gmon.out > analysis.txt
 
 ## 9. Diagramas
 
----
-
 ### 9.1 Diagrama de bloques
 
-```
-[Python] → [TXT] → [C] → [ASM] → [Output]
-```
+```mermaid
+flowchart LR
+    subgraph PY[Python Layer]
+        A[data_formatter.py]
+    end
 
----
+    subgraph DATA[Interfaz de Datos]
+        B[(Archivo TXT - gini_values.txt)]
+    end
+
+    subgraph C_LAYER[C Layer]
+        C1[file_reader.c]
+        C2[main_i2.c]
+    end
+
+    subgraph ASM_LAYER[Assembler Layer]
+        D[process_value_asm]
+    end
+
+    subgraph OUTPUT[Salida]
+        E[stdout]
+    end
+
+    A -->|genera datos| B
+    B -->|lectura secuencial| C1
+    C1 --> C2
+    C2 -->|llamada funcion| D
+    D -->|retorno rax| C2
+    C2 -->|impresion| E
+```
+El sistema se organiza en capas claramente desacopladas:
+
+- **Python Layer**: responsable de la obtención y formateo de datos.
+- **Interfaz de Datos**: archivo `.txt` utilizado como mecanismo de comunicación entre lenguajes.
+- **C Layer**: maneja la lógica de lectura, iteración y control del flujo.
+- **Assembler Layer**: implementa una operación puntual de procesamiento a bajo nivel.
+- **Salida**: resultados impresos por consola.
+
+Esta arquitectura permite separar responsabilidades y facilita tanto el testing como el debugging de cada componente de manera independiente.
 
 ### 9.2 Diagrama de secuencia
 
+```mermaid
+sequenceDiagram
+    participant Py as Python
+    participant File as TXT File
+    participant C as C Program
+    participant ASM as ASM Function
+
+    Py->>File: escribe datos (floats)
+    C->>File: lee archivo
+    loop por cada valor
+        C->>ASM: process_value_asm(float)
+        ASM-->>C: int (valor + 1)
+    end
+    C->>C: imprime resultado
 ```
-Python → genera archivo
-C → abre archivo
-C → lee valor
-C → llama ASM
-ASM → procesa valor
-ASM → retorna resultado
-C → imprime resultado
+### 9.3 Flujo de llamada C → ASM
+
+```mermaid
+flowchart TD
+    A[C: main] --> B[Carga argumento en xmm0]
+    B --> C[call process_value_asm]
+    C --> D[Stack: guarda dirección de retorno]
+    D --> E[ASM: cvttss2si]
+    E --> F[ASM: add 1]
+    F --> G[Resultado en rax]
+    G --> H[ret]
+    H --> I[Stack: recupera retorno]
+    I --> J[C recibe resultado]
 ```
+Este diagrama representa el flujo de ejecución a bajo nivel durante la llamada desde C a la función en assembler:
+
+1. **Carga de argumento**  
+   El valor `float` se pasa desde C al registro `xmm0`, siguiendo la convención System V AMD64.
+
+2. **Instrucción `call`**  
+   Se invoca la función `process_value_asm`.  
+   En este punto, la CPU automáticamente guarda la dirección de retorno en el stack (`rsp`).
+
+3. **Ejecución en ASM**  
+   - `cvttss2si`: convierte el valor de `float` a entero (truncamiento)  
+   - `add`: incrementa el valor en 1  
+
+4. **Valor de retorno**  
+   El resultado se almacena en el registro `rax`, que es el estándar para retorno de funciones.
+
+5. **Instrucción `ret`**  
+   Se recupera la dirección previamente almacenada en el stack y se retorna a la función en C.
+
+#### Observación importante
+
+Aunque la función ASM no utiliza explícitamente el stack (no hay uso de `rbp` ni variables locales), el stack participa implícitamente en:
+
+- almacenamiento de la dirección de retorno (`call`)
+- recuperación de flujo (`ret`)
+
+Esto fue verificado mediante GDB, inspeccionando el registro `rsp` y el contenido del stack en tiempo de ejecución.
 
 ---
 
