@@ -16,8 +16,6 @@ Como se observa en la imagen, el programa realiza las siguientes acciones antes 
 <img width="1570" height="1605" alt="Captura de pantalla 2026-04-19 202606" src="https://github.com/user-attachments/assets/9d476fb5-fa99-430e-b3d1-f85c705b97cf" />
 
 
-> **Observación:** El uso de `%xmm0` confirma que el argumento es un valor de punto flotante, cumpliendo con la convención de llamadas para arquitectura x86_64.
-
 ---
 
 ## 3. Estado del Sistema ANTES de la Llamada
@@ -27,8 +25,9 @@ Antes de ejecutar la instrucción `call`, se inspeccionó el estado de los regis
 * **Registro `%xmm0`**: Contiene el valor `0x422acccd` (representación float de aproximadamente **42.7**).
 * **Registro `%rsp`**: Apunta a la dirección `0x7ffffffdde50`.
 
-![Estado de registros inicial](Captura%20de%20pantalla%202026-04-19%20203057.png)
-![Estado inicial del stack](Captura%20de%20pantalla%202026-04-19%20203226.png)
+<img width="2841" height="195" alt="Captura de pantalla 2026-04-19 203359" src="https://github.com/user-attachments/assets/77f0d677-e179-4693-9caa-66365852f14f" />
+
+<img width="1126" height="197" alt="Captura de pantalla 2026-04-19 203226" src="https://github.com/user-attachments/assets/602856c2-57a5-4423-b3c9-39f9d61cf2b9" />
 
 ---
 
@@ -39,8 +38,9 @@ Una vez dentro de la función en Assembler, se ejecutan las instrucciones paso a
 1. **Conversión**: `%rax` toma el valor hexadecimal `0x2a` (**42** decimal).
 2. **Incremento**: El registro `%rax` finaliza en `0x2b` (**43** decimal).
 
-![Resultado intermedio rax](Captura%20de%20pantalla%202026-04-19%20203924.png)
-![Resultado final rax](Captura%20de%20pantalla%202026-04-19%20204124.png)
+<img width="2841" height="195" alt="Captura de pantalla 2026-04-19 203359" src="https://github.com/user-attachments/assets/b6ea5b23-ddbf-4298-80e0-cb251a0e8492" />
+
+<img width="739" height="122" alt="Captura de pantalla 2026-04-19 204124" src="https://github.com/user-attachments/assets/a7f641c6-9475-48dc-8001-080780324c10" />
 
 ---
 
@@ -50,7 +50,7 @@ Durante la ejecución de la instrucción `call`, el procesador apila automática
 ### Inspección del Stack en Llamada
 Al inspeccionar el stack con `x/8xg $rsp`, se observa que el puntero ha descendido a `0x7ffffffdde48`. El valor almacenado en ese tope es `0x000055555555526c`.
 
-![Dirección de retorno en stack](Captura%20de%20pantalla%202026-04-19%20204039.png)
+<img width="1125" height="238" alt="Captura de pantalla 2026-04-19 204039" src="https://github.com/user-attachments/assets/940c3fc2-49c3-4dcd-b845-ff0d6c175e28" />
 
 **Validación**: Al contrastar esta dirección con el desensamblado de `main`, se confirma que apunta a la instrucción inmediatamente posterior al `call` (+147), garantizando que el programa retome su ejecución correctamente tras el `ret`.
 
