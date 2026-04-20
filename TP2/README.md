@@ -110,7 +110,7 @@ Explicación:
 
 ## 5. Debugging con GDB
 
-Se utilizó GDB para analizar la ejecución. Todo el analisis con los resultados del mismo se encuentran en docs/
+Se utilizó GDB para analizar la ejecución. Todo el analisis con los resultados del mismo se encuentran en `docs/gbd_analysis.md`
 
 
 ---
