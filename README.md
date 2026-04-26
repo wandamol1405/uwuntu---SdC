@@ -5,6 +5,7 @@ Cada carpeta corresponde a un trabajo practico (TP) de la materia:
 
 - TP1: Rendimiento
 - TP2: Stack frame
+- TP3: Modo protegido
 
 ## Objetivo
 El objetivo de este repositorio es documentar y centralizar los ejercicios prácticos y experimentos realizados durante la cursada, con el fin de:
@@ -33,7 +34,7 @@ El repositorio contiene múltiples trabajos prácticos (TP). Para cada TP se uti
 
 ```
 main
-└── dev-tp1
+└── dev-tp2
     ├── feature/api-consumo
     ├── feature/c-reader
     └── feature/gini-calculo

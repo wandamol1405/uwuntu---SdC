@@ -1,0 +1,135 @@
+
+main.o:     formato del fichero elf32-i386
+
+
+Desensamblado de la sección .text:
+
+00000000 <_start>:
+   0:	31 c0                	xor    %eax,%eax
+   2:	8e d8                	mov    %eax,%ds
+   4:	be 13 00         	mov    $0x3cac0013,%esi
+
+00000007 <print>:
+   7:	ac                   	lods   %ds:(%esi),%al
+   8:	3c 00                	cmp    $0x0,%al
+   a:	74 06                	je     12 <done>
+   c:	b4 0e                	mov    $0xe,%ah
+   e:	cd 10                	int    $0x10
+  10:	eb f5                	jmp    7 <print>
+
+00000012 <done>:
+  12:	f4                   	hlt
+
+00000013 <msg>:
+  13:	20 5f 20             	and    %bl,0x20(%edi)
+  16:	20 20                	and    %ah,(%eax)
+  18:	5f                   	pop    %edi
+  19:	20 5f 20             	and    %bl,0x20(%edi)
+  1c:	5f                   	pop    %edi
+  1d:	20 5f 20             	and    %bl,0x20(%edi)
+  20:	20 20                	and    %ah,(%eax)
+  22:	5f                   	pop    %edi
+  23:	20 5f 20             	and    %bl,0x20(%edi)
+  26:	20 20                	and    %ah,(%eax)
+  28:	5f                   	pop    %edi
+  29:	20 5f 5f             	and    %bl,0x5f(%edi)
+  2c:	5f                   	pop    %edi
+  2d:	5f                   	pop    %edi
+  2e:	5f                   	pop    %edi
+  2f:	20 5f 20             	and    %bl,0x20(%edi)
+  32:	20 20                	and    %ah,(%eax)
+  34:	5f                   	pop    %edi
+  35:	20 0d 0a 7c 20 7c    	and    %cl,0x7c207c0a
+  3b:	20 7c 20 7c          	and    %bh,0x7c(%eax,%eiz,1)
+  3f:	20 7c 20 7c          	and    %bh,0x7c(%eax,%eiz,1)
+  43:	20 7c 20 7c          	and    %bh,0x7c(%eax,%eiz,1)
+  47:	20 7c 20 5c          	and    %bh,0x5c(%eax,%eiz,1)
+  4b:	20 7c 20 7c          	and    %bh,0x7c(%eax,%eiz,1)
+  4f:	5f                   	pop    %edi
+  50:	20 20                	and    %ah,(%eax)
+  52:	20 5f 7c             	and    %bl,0x7c(%edi)
+  55:	20 7c 20 7c          	and    %bh,0x7c(%eax,%eiz,1)
+  59:	20 7c 0d 0a          	and    %bh,0xa(%ebp,%ecx,1)
+  5d:	7c 20                	jl     7f <msg+0x6c>
+  5f:	7c 5f                	jl     c0 <msg+0xad>
+  61:	7c 20                	jl     83 <msg+0x70>
+  63:	7c 20                	jl     85 <msg+0x72>
+  65:	7c 20                	jl     87 <msg+0x74>
+  67:	7c 20                	jl     89 <msg+0x76>
+  69:	7c 5f                	jl     ca <msg+0xb7>
+  6b:	7c 20                	jl     8d <msg+0x7a>
+  6d:	7c 20                	jl     8f <msg+0x7c>
+  6f:	7c 5c                	jl     cd <msg+0xba>
+  71:	20 20                	and    %ah,(%eax)
+  73:	7c 20                	jl     95 <msg+0x82>
+  75:	7c 20                	jl     97 <msg+0x84>
+  77:	7c 20                	jl     99 <msg+0x86>
+  79:	7c 20                	jl     9b <msg+0x88>
+  7b:	7c 5f                	jl     dc <msg+0xc9>
+  7d:	7c 20                	jl     9f <msg+0x8c>
+  7f:	7c 0d                	jl     8e <msg+0x7b>
+  81:	0a 20                	or     (%eax),%ah
+  83:	5c                   	pop    %esp
+  84:	5f                   	pop    %edi
+  85:	5f                   	pop    %edi
+  86:	5f                   	pop    %edi
+  87:	2f                   	das
+  88:	7c 5f                	jl     e9 <msg+0xd6>
+  8a:	5f                   	pop    %edi
+  8b:	5f                   	pop    %edi
+  8c:	5f                   	pop    %edi
+  8d:	5f                   	pop    %edi
+  8e:	7c 5c                	jl     ec <msg+0xd9>
+  90:	5f                   	pop    %edi
+  91:	5f                   	pop    %edi
+  92:	5f                   	pop    %edi
+  93:	2f                   	das
+  94:	7c 5f                	jl     f5 <msg+0xe2>
+  96:	7c 20                	jl     b8 <msg+0xa5>
+  98:	5c                   	pop    %esp
+  99:	5f                   	pop    %edi
+  9a:	7c 20                	jl     bc <msg+0xa9>
+  9c:	7c 5f                	jl     fd <msg+0xea>
+  9e:	7c 20                	jl     c0 <msg+0xad>
+  a0:	20 5c 5f 5f          	and    %bl,0x5f(%edi,%ebx,2)
+  a4:	5f                   	pop    %edi
+  a5:	2f                   	das
+  a6:	20 0d 0a 20 20 20    	and    %cl,0x2020200a
+  ac:	20 20                	and    %ah,(%eax)
+  ae:	20 20                	and    %ah,(%eax)
+  b0:	20 20                	and    %ah,(%eax)
+  b2:	20 20                	and    %ah,(%eax)
+  b4:	20 20                	and    %ah,(%eax)
+  b6:	20 20                	and    %ah,(%eax)
+  b8:	20 20                	and    %ah,(%eax)
+  ba:	20 20                	and    %ah,(%eax)
+  bc:	20 20                	and    %ah,(%eax)
+  be:	20 20                	and    %ah,(%eax)
+  c0:	20 20                	and    %ah,(%eax)
+  c2:	20 20                	and    %ah,(%eax)
+  c4:	20 20                	and    %ah,(%eax)
+  c6:	20 20                	and    %ah,(%eax)
+  c8:	20 20                	and    %ah,(%eax)
+  ca:	20 20                	and    %ah,(%eax)
+  cc:	20 20                	and    %ah,(%eax)
+  ce:	0d 0a 48 65 6c       	or     $0x6c65480a,%eax
+  d3:	6c                   	insb   (%dx),%es:(%edi)
+  d4:	6f                   	outsl  %ds:(%esi),(%dx)
+  d5:	2c 20                	sub    $0x20,%al
+  d7:	57                   	push   %edi
+  d8:	6f                   	outsl  %ds:(%esi),(%dx)
+  d9:	72 6c                	jb     147 <msg+0x134>
+  db:	64 21 20             	and    %esp,%fs:(%eax)
+  de:	54                   	push   %esp
+  df:	68 65 20 75 77       	push   $0x77752065
+  e4:	75 6e                	jne    154 <msg+0x141>
+  e6:	74 75                	je     15d <msg+0x14a>
+  e8:	20 67 72             	and    %ah,0x72(%edi)
+  eb:	6f                   	outsl  %ds:(%esi),(%dx)
+  ec:	75 70                	jne    15e <msg+0x14b>
+  ee:	20 67 72             	and    %ah,0x72(%edi)
+  f1:	65 65 74 73          	gs gs je 168 <msg+0x155>
+  f5:	20 79 6f             	and    %bh,0x6f(%ecx)
+  f8:	75 21                	jne    11b <msg+0x108>
+  fa:	20 3a                	and    %bh,(%edx)
+  fc:	33 00                	xor    (%eax),%eax
