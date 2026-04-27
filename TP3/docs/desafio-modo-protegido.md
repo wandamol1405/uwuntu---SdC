@@ -32,6 +32,7 @@ Se editó el descriptor de segmento de datos en la tabla GDT. Se cambió el valo
 
 # El valor '90' (en lugar de '92') desactiva el bit Writable (W) del Access Byte.
 
+```
 ## Código de Violación de Segmento
 
 Se agregó una instrucción de escritura hacia una dirección de memoria (0x0) que pertenece al segmento de datos configurado anteriormente.
