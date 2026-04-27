@@ -82,3 +82,139 @@ Se logró implementar la base de un sistema operativo de 32 bits mediante la tra
 ---
 
 ## Evidencia Referenciada
+
+#### 1. Fragmentos de Código Relevantes (Implementación Real)
+
+- **Definición de la GDT y configuración de selectores**
+
+ ```bash
+# =======================================
+# Protected mode entry point
+# =======================================
+.code32
+protected_mode_entry:
+  # Set up segment registers
+   mov $0x10, %ax # Data segment selector
+   mov %ax, %ds
+   mov %ax, %ss
+   mov %ax, %es
+   mov %ax, %fs
+   mov %ax, %gs
+
+
+  # set up the stack
+   mov $0x90000, %esp # Set the stack pointer to a safe location
+
+
+  # =======================================
+  # Access memory in protected mode to verify it's working
+  # =======================================
+   movl $0x12345678, 0x0
+
+
+hang:
+   hlt # Halt the CPU
+   jmp hang 
+
+
+# =======================================
+# GDT (Global Descriptor Table) setup
+# =======================================
+gdt:
+  # Null descriptor
+   .quad 0x0000000000000000
+
+
+  # Code segment descriptor (base=0, limit=4GB, executable, readable)
+   .quad 0x00CF9A000000FFFF
+
+
+  # Data segment descriptor (base=0, limit=4GB, writable)
+   .quad 0x00CF92000000FFFF
+
+
+gdt_end:
+
+
+gdt_descriptor:
+   .word gdt_end - gdt - 1 # Limit (size of GDT - 1)
+   .long gdt               # Base address of the GDT
+```
+
+- **Transición de Modo:**
+
+```bash
+.code16
+.global _start
+
+
+_start:
+   cli # Disable interrupts
+
+
+   # Set up the GDT (Global Descriptor Table)
+   xor %ax, %ax
+   mov %ax, %ds
+
+
+  # =======================================
+  # Load the GDT
+  # =======================================
+   lgdt gdt_descriptor
+
+
+  # =======================================
+  # Enable protected mode
+  # =======================================
+   mov %cr0, %eax
+   or $0x1, %eax # Set the PE (Protection Enable) bit
+   mov %eax, %cr0
+
+
+  # =======================================
+  # Far jump to flush the instruction pipeline and switch to protected mode
+   jmp $0x08, $protected_mode_entry
+```
+
+- **Experimento de Protección:**
+
+```bash
+  # =======================================
+  # Access memory in protected mode to verify it's working
+  # =======================================
+   movl $0x12345678, 0x0
+```
+
+#### 2. Capturas de GDB y Validación de Registros
+
+- **Registro CR0 (Bit PE):**
+![alt text](image-4.png)
+
+***Registros de Segmento:**
+![alt text](image-5.png)
+![alt text](image-6.png)
+
+- **Breakpoints:**
+![alt text](image-7.png)
+
+#### 3. Evidencia del Fallo de Protección
+
+Tras intentar realizar la escritura inválida mediante la instrucción movl $0x12345678, 0x0 en un segmento configurado como solo lectura, se documentó el siguiente comportamiento técnico:
+
+**Análisis del EIP:** Mediante la inspección con GDB, se verificó que el registro EIP (Instruction Pointer) quedó apuntando a la dirección de memoria exacta de la instrucción movl conflictiva. Esto confirma que el procesador identificó la instrucción de escritura como la causante de la violación de acceso antes de completar su ejecución.
+
+**Comportamiento observable:** El síntoma principal del fallo fue la desconexión inmediata entre QEMU y GDB. Este comportamiento es característico de un error crítico del sistema generado por una excepción de Protección General (#GP), la cual ocurre cuando el hardware detecta que una operación (en este caso, una escritura) viola las reglas de acceso definidas en el descriptor de segmento de la GDT.
+
+#### 4. Capturas de Ejecución (QEMU y Hardware Real)
+
+- **Ejecución en QEMU:**
+![alt text](image-8.png)
+
+- **Prueba en Hardware:**
+![alt text](image-9.png)
+
+#### 5. Respuestas a Consignas
+
+**Segmentación:** En el sistema implementado, se definieron dos descriptores de memoria con el objetivo de separar las facultades de ejecución y almacenamiento. Ambos descriptores comparten la misma base (0) y el mismo límite (4GB), abarcando la totalidad del espacio direccionable. Sin embargo, se diferencian por sus atributos: el descriptor de código se configuró como ejecutable y leíble (0x00CF9A000000FFFF), mientras que el descriptor de datos se configuró como escribible (0x00CF92000000FFFF), permitiendo así que el procesador distinga entre instrucciones y variables.
+
+**Valores de registros de segmento:** En modo protegido, los registros de segmento (DS, SS, ES, etc.) ya no almacenan direcciones físicas, sino que se cargan con selectores. En nuestra implementación, se utilizaron valores como 0x08 para el segmento de código y 0x10 para el segmento de datos. Estos valores son necesarios porque actúan como índices dentro de la GDT; el procesador utiliza estos índices para buscar el descriptor correspondiente y cargar de forma automática la base, el límite y las reglas de acceso en sus registros caché invisibles.
