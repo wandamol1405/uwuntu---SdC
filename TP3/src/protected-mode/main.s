@@ -40,6 +40,11 @@ protected_mode_entry:
     # set up the stack
     mov $0x90000, %esp  # Set the stack pointer to a safe location
 
+    # =======================================
+    # Access memory in protected mode to verify it's working
+    # =======================================
+    movl $0x12345678, 0x0
+
 hang:
     hlt  # Halt the CPU
     jmp hang  
