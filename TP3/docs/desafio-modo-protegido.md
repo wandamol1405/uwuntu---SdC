@@ -1,3 +1,37 @@
+# 🛡️ Desafío: Protección de Memoria y GDT en Modo Protegido
+
+## 1. Descripción del Experimento
+
+Este desafío consiste en configurar el sistema para que un segmento de datos tenga permisos de **solo lectura** (Read-Only) y validar el mecanismo de protección del procesador intentando realizar una escritura sobre dicho segmento.
+
+El objetivo es observar la generación de una excepción de protección general (**#GP**) ante accesos inválidos, relacionándolo con la configuración de la **GDT (Global Descriptor Table)** en arquitecturas x86.
+
+---
+
+## 2. Objetivos Alcanzados
+
+- [x] Configuración del **Access Byte** de un descriptor de datos.
+- [x] Implementación del pasaje a **Modo Protegido**.
+- [x] Validación de registros de control (`CR0`).
+- [x] Observación del comportamiento del CPU ante una violación de permisos.
+- [x] Análisis mediante **GDB** y **QEMU**.
+
+---
+
+## 3. Implementación Técnica
+
+### Modificación de la GDT (`src/protected-mode/main.s`)
+
+Se editó el descriptor de segmento de datos en la tabla GDT. Se cambió el valor del descriptor de **Lectura/Escritura** a **Solo Lectura**.
+
+**Código modificado:**
+
+```asm
+# Data segment descriptor (Base=0, Limit=4GB, Read-Only)
+.quad 0x00CF90000000FFFF  
+
+# El valor '90' (en lugar de '92') desactiva el bit Writable (W) del Access Byte.
+
 ## Código de Violación de Segmento
 
 Se agregó una instrucción de escritura hacia una dirección de memoria (0x0) que pertenece al segmento de datos configurado anteriormente.
