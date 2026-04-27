@@ -52,8 +52,7 @@ movl $0x12345678, 0x0  ; <--- Intento de escritura prohibida
 
 Al iniciar QEMU con los parámetros de depuración (-s -S) y conectar GDB, el procesador se encuentra pausado en el Reset Vector.
 
-**Evidencia Requerida:**
-Captura de la terminal de GDB mostrando la dirección 0x0000fff0.
+<img width="1379" height="187" alt="Captura de pantalla 2026-04-27 125500" src="https://github.com/user-attachments/assets/75311e2e-5534-4666-8da9-6a9c833244ee" />
 
 ---
 
@@ -61,8 +60,9 @@ Captura de la terminal de GDB mostrando la dirección 0x0000fff0.
 
 Mediante el comando `info registers cr0`, se verificó que el bit PE (Protection Enable) cambia de 0 a 1 tras ejecutar la instrucción que activa el modo protegido.
 
-**Evidencia Requerida:**
-Captura de GDB mostrando cr0 con el valor 0x11 (o similar, con el bit 0 en 1).
+<img width="2771" height="224" alt="Captura de pantalla 2026-04-27 130234" src="https://github.com/user-attachments/assets/3d01a5f8-60c0-4a0d-a935-07c90ea5a35d" />
+
+<img width="1007" height="188" alt="Captura de pantalla 2026-04-27 140202" src="https://github.com/user-attachments/assets/693ab481-6429-4c53-aeae-2d96756fabd1" />
 
 ---
 
@@ -75,8 +75,9 @@ Al ejecutar paso a paso (`si`) hasta la instrucción de escritura, el procesador
 - El procesador genera una General Protection Fault (#GP).
 - Al no existir una IDT configurada, el sistema entra en un Triple Fault y se reinicia automáticamente.
 
-**Evidencia Requerida:**
-Captura de GDB indicando el reinicio del sistema o el salto abrupto del registro EIP.
+<img width="2803" height="511" alt="Captura de pantalla 2026-04-27 140711" src="https://github.com/user-attachments/assets/859bfdab-03f9-4469-be55-74129e4df03a" />
+
+<img width="2795" height="767" alt="Captura de pantalla 2026-04-27 140955" src="https://github.com/user-attachments/assets/56416294-2977-469c-a410-aa1d4396d989" />
 
 ---
 
@@ -92,10 +93,3 @@ Al intentar realizar la escritura, la Unidad de Gestión de Memoria (MMU) del x8
 
 Este experimento demuestra que el Modo Protegido utiliza la GDT como un contrato de seguridad. El hardware valida cada acceso a memoria contra los permisos definidos, permitiendo que el sistema operativo proteja regiones críticas de datos frente a escrituras no autorizadas o errores de programación.
 
----
-
-## 📂 Archivos del Desafío
-
-- Código fuente: src/protected-mode/main.s
-- Imagen de disco: src/protected-mode/main.img
-- Evidencias: docs/evidencias/modo-protegido/
