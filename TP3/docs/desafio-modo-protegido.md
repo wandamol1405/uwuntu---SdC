@@ -218,3 +218,98 @@ Tras intentar realizar la escritura inválida mediante la instrucción movl $0x1
 **Segmentación:** En el sistema implementado, se definieron dos descriptores de memoria con el objetivo de separar las facultades de ejecución y almacenamiento. Ambos descriptores comparten la misma base (0) y el mismo límite (4GB), abarcando la totalidad del espacio direccionable. Sin embargo, se diferencian por sus atributos: el descriptor de código se configuró como ejecutable y leíble (0x00CF9A000000FFFF), mientras que el descriptor de datos se configuró como escribible (0x00CF92000000FFFF), permitiendo así que el procesador distinga entre instrucciones y variables.
 
 **Valores de registros de segmento:** En modo protegido, los registros de segmento (DS, SS, ES, etc.) ya no almacenan direcciones físicas, sino que se cargan con selectores. En nuestra implementación, se utilizaron valores como 0x08 para el segmento de código y 0x10 para el segmento de datos. Estos valores son necesarios porque actúan como índices dentro de la GDT; el procesador utiliza estos índices para buscar el descriptor correspondiente y cargar de forma automática la base, el límite y las reglas de acceso en sus registros caché invisibles.
+# 🛡️ Desafío: Protección de Memoria y GDT en Modo Protegido
+
+## 1. Descripción del Experimento
+
+Este desafío consiste en configurar el sistema para que un segmento de datos tenga permisos de **solo lectura** (Read-Only) y validar el mecanismo de protección del procesador intentando realizar una escritura sobre dicho segmento.
+
+El objetivo es observar la generación de una excepción de protección general (**#GP**) ante accesos inválidos, relacionándolo con la configuración de la **GDT (Global Descriptor Table)** en arquitecturas x86.
+
+---
+
+## 2. Objetivos Alcanzados
+
+- [x] Configuración del **Access Byte** de un descriptor de datos.
+- [x] Implementación del pasaje a **Modo Protegido**.
+- [x] Validación de registros de control (`CR0`).
+- [x] Observación del comportamiento del CPU ante una violación de permisos.
+- [x] Análisis mediante **GDB** y **QEMU**.
+
+---
+
+## 3. Implementación Técnica
+
+### Modificación de la GDT (`src/protected-mode/main.s`)
+
+Se editó el descriptor de segmento de datos en la tabla GDT. Se cambió el valor del descriptor de **Lectura/Escritura** a **Solo Lectura**.
+
+**Código modificado:**
+
+```asm
+# Data segment descriptor (Base=0, Limit=4GB, Read-Only)
+.quad 0x00CF90000000FFFF  
+
+# El valor '90' (en lugar de '92') desactiva el bit Writable (W) del Access Byte.
+
+```
+## Código de Violación de Segmento
+
+Se agregó una instrucción de escritura hacia una dirección de memoria (0x0) que pertenece al segmento de datos configurado anteriormente.
+
+### Fragmento de código:
+
+```asm
+# Una vez cargados los selectores de segmento (DS, ES, SS)
+movl $0x12345678, 0x0  ; <--- Intento de escritura prohibida
+```
+
+---
+
+## 4. Evidencia de Debugging (GDB)
+
+### A. Conexión y Estado Inicial
+
+Al iniciar QEMU con los parámetros de depuración (-s -S) y conectar GDB, el procesador se encuentra pausado en el Reset Vector.
+
+<img width="1379" height="187" alt="Captura de pantalla 2026-04-27 125500" src="https://github.com/user-attachments/assets/75311e2e-5534-4666-8da9-6a9c833244ee" />
+
+---
+
+### B. Salto a Modo Protegido (CR0)
+
+Mediante el comando `info registers cr0`, se verificó que el bit PE (Protection Enable) cambia de 0 a 1 tras ejecutar la instrucción que activa el modo protegido.
+
+<img width="2771" height="224" alt="Captura de pantalla 2026-04-27 130234" src="https://github.com/user-attachments/assets/3d01a5f8-60c0-4a0d-a935-07c90ea5a35d" />
+
+<img width="1007" height="188" alt="Captura de pantalla 2026-04-27 140202" src="https://github.com/user-attachments/assets/693ab481-6429-4c53-aeae-2d96756fabd1" />
+
+---
+
+### C. Fallo de Protección
+
+Al ejecutar paso a paso (`si`) hasta la instrucción de escritura, el procesador detecta que el segmento de datos no permite escritura.
+
+**Comportamiento observado:**
+
+- El procesador genera una General Protection Fault (#GP).
+- Al no existir una IDT configurada, el sistema entra en un Triple Fault y se reinicia automáticamente.
+
+<img width="2803" height="511" alt="Captura de pantalla 2026-04-27 140711" src="https://github.com/user-attachments/assets/859bfdab-03f9-4469-be55-74129e4df03a" />
+
+<img width="2795" height="767" alt="Captura de pantalla 2026-04-27 140955" src="https://github.com/user-attachments/assets/56416294-2977-469c-a410-aa1d4396d989" />
+
+---
+
+## 5. Interpretación Teórica
+
+### ¿Qué sucedió exactamente?
+
+Al intentar realizar la escritura, la Unidad de Gestión de Memoria (MMU) del x86 consulta el descriptor de segmento almacenado en la caché del registro de segmento correspondiente. Al verificar que el bit W (Writable) del Access Byte en la GDT está en 0, el hardware bloquea la ejecución de la instrucción y lanza la excepción #GP (0x0D).
+
+---
+
+### Relación con la Protección de Memoria
+
+Este experimento demuestra que el Modo Protegido utiliza la GDT como un contrato de seguridad. El hardware valida cada acceso a memoria contra los permisos definidos, permitiendo que el sistema operativo proteja regiones críticas de datos frente a escrituras no autorizadas o errores de programación.
+
