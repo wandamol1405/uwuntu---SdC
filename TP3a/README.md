@@ -354,9 +354,6 @@ Como se ve, el programa queda "clavado" al ejecutar `uwuntu_app.efi`. Buscando l
 
 ![alt text](evidencias/prueba-QEMU-2.png)
 
-Claro, acá tenés una versión más concisa y formal para el informe:
-
----
 
 El uso de `Print()` se adoptó como alternativa a `OutputString()` debido a problemas de ejecución observados en el entorno QEMU. Si bien ambas funciones operan sobre los servicios de salida del firmware UEFI, `OutputString()` implica una interacción directa con el protocolo `EFI_SIMPLE_TEXT_OUTPUT_PROTOCOL`, requiriendo que las estructuras y punteros asociados estén correctamente inicializados. Esto la hace más susceptible a fallos en entornos donde la inicialización no es completamente consistente.
 
