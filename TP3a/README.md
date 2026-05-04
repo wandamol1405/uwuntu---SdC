@@ -289,7 +289,30 @@ Las llamadas a funciones como OutputString no aparecen de forma directa, sino co
 
 ![alt text](evidencias/analisis-ghidra-4.png)
 
-Durante el análisis en Ghidra, no se observa explícitamente la condición asociada al valor `0xCC`. Esto se debe a que el compilador optimizó la expresión en tiempo de compilación, evaluándola como verdadera y eliminando completamente la estructura condicional. Como resultado, el código decompilado presenta únicamente la ejecución directa del bloque asociado, sin ninguna instrucción de salto condicional. Este comportamiento evidencia cómo las optimizaciones pueden ocultar la lógica original del programa, dificultando el análisis en contextos de ingeniería inversa y ciberseguridad.
+Durante el análisis en Ghidra, no se observa explícitamente la condición asociada al valor 0xCC. Esto se debe a que el compilador optimizó la expresión en tiempo de compilación, evaluándola como verdadera y eliminando completamente la estructura condicional. Como resultado, el código decompilado presenta únicamente la ejecución directa del bloque asociado, sin ninguna instrucción de salto condicional. 
+
+Para forzar a Ghidra a mostrar la lógica de comparación, se implementó una funcion externa. Al mover la asignación del valor a la función obtener_valor(), se introduce una "incertidumbre" para el compilador; este ya no puede predecir el resultado y se ve obligado a generar el código máquina necesario para evaluar la condición en tiempo de ejecución.
+
+```bash
+// Definimos una función que Ghidra no pueda predecir fácilmente
+unsigned char obtener_valor()
+{
+   return 0xCC;
+}
+// en efi_main
+   unsigned char code[] = {obtener_valor()};
+   if (code[0] == 0xCC)
+   {
+       ...
+   }
+```
+
+![alt text](<evidencias/analisis -52.png>)
+
+Tras analizar el nuevo archivo .efi en Ghidra, se observaron los siguientes cambios:
+- El bloque condicional if ahora es visible en el decompilador, permitiendo rastrear la lógica del programa.
+- Ghidra interpretó el valor hexadecimal 0xCC como un entero de 8 bits con signo. Debido a que el bit más significativo está activo (1), el valor se representa como su complemento a dos: -0x34 (hexadecimal) o -52 (decimal).
+- El resultado confirma que el programa está evaluando la presencia del opcode 0xCC (instrucción INT3 en x86), utilizado comúnmente para establecer puntos de interrupción en depuración, visualizándolo correctamente bajo la interpretación de números signados solicitada en la consigna.
 
 ## Ejecucion en hardware fisico
 
