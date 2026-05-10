@@ -22,7 +22,7 @@ _start:
 
     # =======================================
     # Far jump to flush the instruction pipeline and switch to protected mode
-    jmp $0x08, $protected_mode_entry
+    ljmp $0x08, $protected_mode_entry
 
 # =======================================
 # Protected mode entry point
@@ -43,24 +43,42 @@ protected_mode_entry:
     # =======================================
     # Access memory in protected mode to verify it's working
     # =======================================
-    movl $0x12345678, 0x0
+    movl $0x12345678, data_var
 
 hang:
     hlt  # Halt the CPU
     jmp hang  
 
+
+# =======================================
+# Data section
+# =======================================
+.align 4
+data_var: .long 0x0
+
 # =======================================
 # GDT (Global Descriptor Table) setup
 # =======================================
+.align 8
 gdt:
     # Null descriptor
     .quad 0x0000000000000000
 
-    # Code segment descriptor (base=0, limit=4GB, executable, readable)
+    # =======================================
+    # CODE SEGMENT
+    # base = 0x00000000
+    # limit = 4GB
+    # executable + readable
+    # =======================================
     .quad 0x00CF9A000000FFFF
 
-    # Data segment descriptor (base=0, limit=4GB, writable)
-    .quad 0x00CF92000000FFFF
+    # =======================================
+    # DATA SEGMENT
+    # base = 0x00100000
+    # limit = 4GB
+    # read-only
+    # =======================================
+    .quad 0x004F90001000FFFF
 
 gdt_end:
 
