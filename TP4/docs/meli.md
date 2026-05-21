@@ -178,5 +178,72 @@ Un *segmentation fault* ocurre cuando un proceso intenta acceder a una direcció
 - **En módulos del kernel (*Kernel Space*):**  
   La situación es considerablemente más crítica. Debido a que el módulo se ejecuta dentro del propio kernel y comparte su espacio de memoria, un error puede corromper estructuras críticas del sistema. En estos casos, el kernel no puede aislar el fallo de la misma forma que lo hace con procesos de usuario, pudiendo provocar un *Kernel Panic* y la caída completa del sistema.
 
-## 4. Análisis Comparativo Grupal
-Esta sección se completará una vez que el resto de los integrantes del equipo suban sus respectivos archivos de salida (``lsmod.txt, proc_modules.txt, hwinfo.txt``) al repositorio oficial. Dicha comparación permitirá evaluar cómo la diversidad de hardware físico o virtual influye en la selección dinámica de módulos cargados por el núcleo durante el arranque.
+## Análisis de los archivos obtenidos
+
+### Archivo `lsmod.txt`
+
+El archivo `lsmod.txt` contiene la salida del comando `lsmod`, utilizado para listar los módulos del kernel que se encuentran cargados actualmente en el sistema Linux. Este comando muestra principalmente:
+- nombre del módulo,
+- tamaño en memoria,
+- cantidad de usos o dependencias.
+
+En outputs/meli, dentro del archivo se pueden observar módulos relacionados con:
+- gráficos (`amdgpu`),
+- audio (`snd_*`),
+- red inalámbrica (`rtw89_*`, `cfg80211`, `mac80211`),
+- bluetooth (`bluetooth`, `btusb`, `rfcomm`),
+- almacenamiento (`nvme`),
+- y el módulo personalizado `mimodulo`. :contentReference[oaicite:0]{index=0}
+
+### Comparación con el equipo de mi compañera
+
+Al comparar ambos equipos, se observó que muchos módulos coinciden debido a que ambos utilizan Linux y comparten varios subsistemas comunes del kernel. Sin embargo, también aparecen diferencias importantes relacionadas con el hardware específico de cada computadora.
+
+En el equipo de mi compañera aparecen numerosos módulos asociados a hardware AMD moderno, especialmente:
+- `amdgpu` para gráficos,
+- `snd_sof_*` para audio,
+- `rtw89_*` para Wi-Fi Realtek,
+- y módulos de Bluetooth y webcam. :contentReference[oaicite:1]{index=1}
+
+Estas diferencias se producen porque Linux carga dinámicamente únicamente los módulos necesarios según el hardware detectado en cada sistema.
+
+Además, ambos equipos muestran correctamente cargado el módulo desarrollado durante la práctica (`mimodulo`), lo que confirma que la compilación e inserción del módulo funcionó correctamente. 
+
+
+
+### Archivo `/proc/modules`
+
+El archivo obtenido desde `/proc/modules` contiene información similar a `lsmod`, ya que ambos reflejan los módulos actualmente cargados en el kernel. Sin embargo, `/proc/modules` brinda información más detallada y de más bajo nivel.
+
+En este archivo se observan:
+- nombre del módulo,
+- tamaño,
+- dependencias,
+- estado del módulo (`Live`),
+- dirección de memoria,
+- y relaciones entre módulos.
+
+Por ejemplo:
+
+```bash
+amdgpu 20103168 40 - Live 0x0000000000000000
+```
+
+Esto permite visualizar información interna que lsmod simplifica para hacerla más legible.
+
+### Comparación con el equipo de mi compañera
+
+En ambos equipos, `/proc/modules` refleja los módulos activos correspondientes al hardware presente en cada sistema.
+
+En el caso de mi compañera, nuevamente aparecen muchos módulos relacionados con:
+
+- GPU AMD,
+- audio avanzado SOF,
+- Wi-Fi Realtek,
+- Bluetooth,
+- dispositivos multimedia.
+
+La principal diferencia respecto a `lsmod` es que aquí pueden observarse claramente: las dependencias exactas entre módulos, el estado activo (Live), y la dirección de memoria asignada a cada módulo. En `/proc/modules` también aparece el estado `Live`, el cual indica que el módulo se encuentra actualmente cargado y activo en memoria dentro del kernel. Esto confirma que el módulo fue insertado correctamente y que el sistema operativo puede utilizarlo mientras el kernel se encuentre en ejecución.
+
+Además, el módulo mimodulo también aparece correctamente cargado en este archivo, confirmando que el kernel lo reconoce como un módulo activo.
+
