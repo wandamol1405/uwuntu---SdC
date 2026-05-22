@@ -1,0 +1,89 @@
+Module                  Size  Used by
+st                     77824  0
+lp                     32768  0
+parport_pc             53248  0
+nvram                  20480  0
+snd_seq_dummy          12288  0
+snd_hrtimer            12288  1
+qrtr                   53248  2
+amdgpu              20103168  55
+snd_hda_codec_alc882    20480  1
+snd_hda_codec_realtek_lib    65536  1 snd_hda_codec_alc882
+snd_hda_codec_generic   122880  2 snd_hda_codec_realtek_lib,snd_hda_codec_alc882
+snd_hda_codec_atihdmi    24576  1
+snd_hda_codec_hdmi     65536  1 snd_hda_codec_atihdmi
+snd_hda_intel          61440  5
+snd_hda_codec         204800  6 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec_realtek_lib,snd_hda_codec_alc882,snd_hda_codec_atihdmi
+snd_hda_core          143360  6 snd_hda_codec_generic,snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,snd_hda_codec_realtek_lib,snd_hda_codec_atihdmi
+snd_intel_dspcfg       45056  1 snd_hda_intel
+snd_intel_sdw_acpi     16384  1 snd_intel_dspcfg
+snd_hwdep              24576  1 snd_hda_codec
+snd_pcm               200704  6 snd_hda_codec_hdmi,snd_hda_intel,snd_hda_codec,snd_hda_core
+binfmt_misc            24576  1
+amdxcp                 12288  1 amdgpu
+drm_panel_backlight_quirks    12288  1 amdgpu
+snd_seq_midi           24576  0
+intel_rapl_msr         20480  0
+amd_atl                69632  1
+gpu_sched              65536  1 amdgpu
+snd_seq_midi_event     16384  1 snd_seq_midi
+drm_buddy              28672  1 amdgpu
+ee1004                 16384  0
+drm_ttm_helper         16384  1 amdgpu
+snd_rawmidi            57344  1 snd_seq_midi
+intel_rapl_common      53248  1 intel_rapl_msr
+rtl8xxxu              299008  0
+ttm                   126976  2 amdgpu,drm_ttm_helper
+snd_seq               122880  9 snd_seq_midi,snd_seq_midi_event,snd_seq_dummy
+drm_exec               12288  1 amdgpu
+eeepc_wmi              12288  0
+mac80211             1851392  1 rtl8xxxu
+drm_suballoc_helper    24576  1 amdgpu
+mfd_aaeon              12288  0
+asus_wmi              102400  2 eeepc_wmi,mfd_aaeon
+snd_seq_device         16384  3 snd_seq,snd_seq_midi,snd_rawmidi
+edac_mce_amd           28672  0
+drm_display_helper    290816  1 amdgpu
+snd_timer              53248  3 snd_seq,snd_hrtimer,snd_pcm
+sparse_keymap          12288  1 asus_wmi
+polyval_clmulni        12288  0
+ghash_clmulni_intel    12288  0
+aesni_intel            98304  0
+platform_profile       20480  1 asus_wmi
+i2c_piix4              32768  0
+rapl                   20480  0
+cfg80211             1462272  2 mac80211,rtl8xxxu
+wmi_bmof               12288  0
+cec                    98304  2 drm_display_helper,amdgpu
+snd                   143360  21 snd_hda_codec_generic,snd_seq,snd_seq_device,snd_hda_codec_hdmi,snd_hwdep,snd_hda_intel,snd_hda_codec,snd_timer,snd_hda_codec_realtek_lib,snd_pcm,snd_rawmidi
+k10temp                16384  0
+i2c_smbus              20480  1 i2c_piix4
+rc_core                73728  1 cec
+i2c_algo_bit           16384  1 amdgpu
+ccp                   159744  0
+soundcore              16384  1 snd
+libarc4                12288  1 mac80211
+nls_iso8859_1          12288  1
+gpio_amdpt             16384  0
+input_leds             12288  0
+joydev                 32768  0
+mac_hid                12288  0
+sch_fq_codel           24576  2
+msr                    12288  0
+ppdev                  24576  0
+parport                73728  3 parport_pc,lp,ppdev
+efi_pstore             12288  0
+nfnetlink              20480  1
+dmi_sysfs              20480  0
+ip_tables              32768  0
+x_tables               65536  1 ip_tables
+autofs4                57344  2
+hid_generic            12288  0
+usbhid                 77824  0
+hid                   262144  2 usbhid,hid_generic
+ahci                   49152  2
+r8169                 139264  0
+video                  77824  2 asus_wmi,amdgpu
+realtek                49152  1
+libahci                53248  1 ahci
+wmi                    28672  4 video,asus_wmi,wmi_bmof,mfd_aaeon

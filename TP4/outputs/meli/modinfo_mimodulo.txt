@@ -1,0 +1,9 @@
+filename:       /home/melisa/Documentos/facultad/sdec/uwuntu---SdC/TP4/src/part1/module/mimodulo.ko
+author:         Grupo: uwuntu
+description:    Modulo de ejemplo para TP4 - Sistemas de Computación - UNC
+license:        GPL
+srcversion:     AD3F05B812ACC63CDAC8696
+depends:        
+name:           mimodulo
+retpoline:      Y
+vermagic:       6.17.0-23-generic SMP preempt mod_unload modversions 
