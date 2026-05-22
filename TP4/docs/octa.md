@@ -104,13 +104,12 @@ El proceso simplificado es el siguiente:
 
 Representación simplificada:
 
-UEFI Firmware
-↓ verifica
-Bootloader (shim/GRUB)
-↓ verifica
-Kernel Linux
-↓ verifica
-Módulos del Kernel
+```mermaid
+graph TD
+    A[UEFI Firmware] --> B[Bootloader (shim/GRUB)]
+    B --> C[Kernel Linux]
+    C --> D[Módulos del Kernel]
+```
 
 Cada elemento confía en el anterior. Si cualquiera de las verificaciones falla, la cadena se rompe y el componente no es ejecutado.
 
