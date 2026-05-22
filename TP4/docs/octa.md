@@ -143,3 +143,8 @@ Este mismo principio se aplica a los módulos del kernel: si la firma no puede v
 
 3. UEFI Documentation. *Secure Boot and Driver Signing*. Disponible en:
    https://uefi.org/specs/UEFI/2.10/32_Secure_Boot_and_Driver_Signing.html
+
+4. *UEFI Secure Boot*. Disponible en:
+   https://eci.intel.com/docs/3.0.1/development/secure_boot.html
+
+
