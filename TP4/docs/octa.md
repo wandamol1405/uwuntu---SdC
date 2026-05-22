@@ -144,5 +144,5 @@ Este mismo principio se aplica a los módulos del kernel: si la firma no puede v
 3. Linux Kernel Documentation. *UEFI Secure Boot*. Disponible en:
    https://docs.kernel.org/admin-guide/efi-stub.html
 
-4. Microsoft Documentation. *Secure Boot Overview*. Disponible en:
-   https://learn.microsoft.com/windows/security/hardware-security/secure-boot
+4. UEFI Documentation. *Secure Boot and Driver Signing*. Disponible en:
+   https://uefi.org/specs/UEFI/2.10/32_Secure_Boot_and_Driver_Signing.html
