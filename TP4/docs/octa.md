@@ -104,14 +104,7 @@ El proceso simplificado es el siguiente:
 
 Representación simplificada:
 
-1. **UEFI Firmware** verifica la firma digital del **bootloader** (por ejemplo, shim o GRUB).
-2. El **bootloader** verifica la firma digital del **kernel Linux**.
-3. El **kernel Linux** verifica la firma digital de los **módulos del kernel** que se cargan dinámicamente.
-4. Si alguna verificación falla, el componente correspondiente es rechazado y el proceso de arranque o carga se detiene.
-
-UEFI Firmware → Bootloader (shim/GRUB) → Kernel Linux → Módulos del Kernel
-
-Cada elemento confía en el anterior. Si cualquiera de las verificaciones falla, la cadena se rompe y el componente no es ejecutado.
+<img width="2107" height="445" alt="image" src="https://github.com/user-attachments/assets/cc01120f-7f47-4c19-a36c-291140bb3985" />
 
 ---
 
