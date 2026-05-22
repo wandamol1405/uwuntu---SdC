@@ -6,7 +6,8 @@ Cada carpeta corresponde a un trabajo practico (TP) de la materia:
 - TP1: Rendimiento
 - TP2: Stack frame
 - TP3: Modo Protegido
-    - TP3a: Entorno UEFI
+- TP3a: Entorno UEFI
+- TP4: Módulos de kernel y llamadas a sistema
 
 ## Objetivo
 El objetivo de este repositorio es documentar y centralizar los ejercicios prácticos y experimentos realizados durante la cursada, con el fin de:
