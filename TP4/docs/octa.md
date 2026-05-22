@@ -144,14 +144,5 @@ Este mismo principio se aplica a los módulos del kernel: si la firma no puede v
 3. Linux Kernel Documentation. *UEFI Secure Boot*. Disponible en:
    https://docs.kernel.org/admin-guide/efi-stub.html
 
-4. UEFI Forum. *UEFI Specification*. Disponible en:
-   https://uefi.org/specifications
-
-5. Red Hat Documentation. *Managing Secure Boot*. Disponible en:
-   https://access.redhat.com/documentation
-
-6. Canonical Documentation. *Secure Boot and Machine Owner Keys (MOK)*. Disponible en:
-   https://ubuntu.com/security/secure-boot
-
-7. Microsoft Documentation. *Secure Boot Overview*. Disponible en:
+4. Microsoft Documentation. *Secure Boot Overview*. Disponible en:
    https://learn.microsoft.com/windows/security/hardware-security/secure-boot
