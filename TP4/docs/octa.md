@@ -141,8 +141,5 @@ Este mismo principio se aplica a los módulos del kernel: si la firma no puede v
 2. Linux Kernel Documentation. *Kernel module signing facility*. Disponible en:
    https://docs.kernel.org/admin-guide/module-signing.html
 
-3. Linux Kernel Documentation. *UEFI Secure Boot*. Disponible en:
-   https://docs.kernel.org/admin-guide/efi-stub.html
-
-4. UEFI Documentation. *Secure Boot and Driver Signing*. Disponible en:
+3. UEFI Documentation. *Secure Boot and Driver Signing*. Disponible en:
    https://uefi.org/specs/UEFI/2.10/32_Secure_Boot_and_Driver_Signing.html
