@@ -104,12 +104,12 @@ El proceso simplificado es el siguiente:
 
 Representación simplificada:
 
-```mermaid
-graph TD
-    A[UEFI Firmware] --> B[Bootloader (shim/GRUB)]
-    B --> C[Kernel Linux]
-    C --> D[Módulos del Kernel]
-```
+1. **UEFI Firmware** verifica la firma digital del **bootloader** (por ejemplo, shim o GRUB).
+2. El **bootloader** verifica la firma digital del **kernel Linux**.
+3. El **kernel Linux** verifica la firma digital de los **módulos del kernel** que se cargan dinámicamente.
+4. Si alguna verificación falla, el componente correspondiente es rechazado y el proceso de arranque o carga se detiene.
+
+UEFI Firmware → Bootloader (shim/GRUB) → Kernel Linux → Módulos del Kernel
 
 Cada elemento confía en el anterior. Si cualquiera de las verificaciones falla, la cadena se rompe y el componente no es ejecutado.
 
@@ -132,14 +132,6 @@ Aunque el kernel y los módulos permanecían intactos, el proceso de arranque se
 Este mismo principio se aplica a los módulos del kernel: si la firma no puede validarse mediante una clave confiable, el kernel rechaza su carga para preservar la integridad del sistema.
 
 ---
-
-# Conclusiones
-
-La firma digital de módulos y componentes del sistema constituye un mecanismo fundamental para garantizar integridad y autenticidad. Secure Boot utiliza una infraestructura basada en claves criptográficas y certificados para construir una cadena de confianza desde el firmware UEFI hasta los módulos del kernel.
-
-Un módulo firmado por un desarrollador sólo podrá cargarse en otra computadora si la clave pública correspondiente forma parte de la base de confianza del sistema. De lo contrario, el kernel podrá rechazarlo, especialmente cuando Secure Boot se encuentra habilitado.
-
-El incidente analizado en el artículo demuestra cómo una modificación en las políticas de validación puede romper la cadena de confianza e impedir la ejecución de componentes considerados previamente válidos, afectando directamente el proceso de arranque de Linux.
 
 # Referencias bibliográficas
 
